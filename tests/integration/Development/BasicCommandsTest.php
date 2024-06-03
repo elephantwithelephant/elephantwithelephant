@@ -27,7 +27,7 @@ class BasicCommandsTest extends IntegrationTestCase
         ;
         $this->connection->runRaw("INSERT INTO person VALUES('Salvador Dalí', 123, '{\"painter\", \"surrealist\", \"elephants\"}')");
         $result = $this->connection
-            ->select('person')
+            ->select($schema)
             ->condition('code', 123)
             ->execute()
         ;

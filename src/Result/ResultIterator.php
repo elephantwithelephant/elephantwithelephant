@@ -2,6 +2,7 @@
 
 namespace ElephantWithElephant\Result;
 
+use ElephantWithElephant\DataTransformation\DataTransformerBase;
 use PgSql\Result as PgSqlResult;
 
 final class ResultIterator implements \Iterator, ResultInterface
@@ -10,8 +11,10 @@ final class ResultIterator implements \Iterator, ResultInterface
     private int $key = -1;
     private mixed $row = null;
 
+    /** @param \ElephantWithElephant\DataTransformation\DataTransformerInterface[] $dataTransformers */
     public function __construct(
         private PgSqlResult $pgSqlResult,
+        private array $dataTransformers,
     ) {}
 
     public function current(): mixed
@@ -26,12 +29,20 @@ final class ResultIterator implements \Iterator, ResultInterface
 
     public function next(): void
     {
-        $this->row = pg_fetch_array($this->pgSqlResult);
+        $this->row = pg_fetch_array($this->pgSqlResult, mode: PGSQL_ASSOC);
 
         if ($this->row === false) {
             $this->valid = false;
         }
         else {
+            foreach ($this->row as $columnName => $value) {
+                /** @var \ElephantWithElephant\DataTransformation\DataTransformerInterface[] */
+                $dataTransformersOfRow = $this->dataTransformers[$columnName] ?? [];
+                foreach ($dataTransformersOfRow as $dataTransformer) {
+                    $this->row[$columnName] = $dataTransformer->transformFetch($value);
+                }
+            }
+
             $this->key++;
         }
     }

@@ -3,6 +3,7 @@
 namespace ElephantWithElephant\Statement\Command;
 
 use ElephantWithElephant\Connection;
+use ElephantWithElephant\Schema\DataType\ColumnInterface;
 use ElephantWithElephant\Schema\Schema;
 use ElephantWithElephant\Statement\StatementBase;
 
@@ -17,6 +18,7 @@ class CreateTable extends StatementBase
 
     public function __toString()
     {
-        return 'CREATE TABLE ' . $this->schema->tableName . ' (' . implode(', ', $this->schema->fields) . ')';
+        $columns = array_map(fn (ColumnInterface $column) => $column->expressionInCreateTable(), $this->schema->columns);
+        return 'CREATE TABLE ' . $this->schema->tableName . ' (' . implode(', ', $columns) . ')';
     }
 }

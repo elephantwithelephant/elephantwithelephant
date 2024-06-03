@@ -8,16 +8,19 @@ abstract class ColumnBase implements ColumnInterface
 
     public function __construct(
         protected string $columnName,
-    ) {
+    ) {}
 
-    }
-
-    public function dataTransformers(): array
+    public function columnName(): string
     {
-        return [];
+        return $this->columnName;
     }
 
-    public function __toString(): string
+    public function expressionInSelectStatement(): string
+    {
+        return '"' . $this->columnName . '"';
+    }
+
+    public function expressionInCreateTable(): string
     {
         return $this->columnName . ' ' . static::FIELD_TYPE;
     }

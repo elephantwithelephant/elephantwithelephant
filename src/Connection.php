@@ -58,9 +58,9 @@ class Connection
         return new CreateTable($this, $schema);
     }
 
-    public function select(string $tableName): Select
+    public function select(string|Schema $table): Select
     {
-        return new Select($this, $tableName);
+        return new Select($this, $table);
     }
 
     //public function insert()
