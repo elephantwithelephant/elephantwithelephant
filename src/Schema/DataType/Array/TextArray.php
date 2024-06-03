@@ -9,8 +9,13 @@ class TextArray extends ColumnBase
 {
     const string FIELD_TYPE = 'TEXT[]';
 
-    public function dataTransformers(): array
+    public function expressionInSelectStatement(?string $alias = null): string
     {
-        return [new ArrayTransformer()];
+        return 'array_to_json("' . $this->columnName() . '")' . $this->asClause($alias ?? $this->columnName());
+    }
+
+    public function transformResult(mixed $value): mixed
+    {
+        return \json_decode($value, associative: true);
     }
 }

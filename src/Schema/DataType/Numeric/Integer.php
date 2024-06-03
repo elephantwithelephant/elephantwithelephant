@@ -9,8 +9,8 @@ class Integer extends ColumnBase
 {
     const string FIELD_TYPE = 'INTEGER';
 
-    public function dataTransformers(): array
+    public function transformResult(mixed $value): mixed
     {
-        return [new IntegerTransformer()];
+        return (int) $value;
     }
 }

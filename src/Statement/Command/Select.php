@@ -20,17 +20,8 @@ class Select extends WhereBearingCommandBase
 
     public function __toString()
     {
-        if ($this->schema) {
-            $columns = [];
-            foreach ($this->schema as $column) {
-                foreach ($this->)
-            }
-        }
-        else {
-            $columns = ['*'];
-        }
-
-        return 'SELECT ' . implode(',', $columns) . ' FROM "' . $this->tableName . '" ' . $this->where . ';';
+        $columns = array_map(fn(ColumnInterface $column) => $column->expressionInSelectStatement(), $this->schema->columns);
+        return 'SELECT ' . implode(',', $columns) . ' FROM "' . $this->schema->tableName . '" ' . $this->where . ';';
     }
 
     public function execute(): ResultIterator
@@ -40,11 +31,6 @@ class Select extends WhereBearingCommandBase
 
     protected function processResult(Result $pgSqlResult): ResultInterface
     {
-        $dataTransformers = [];
-        if ($this->schema) {
-            $dataTransformers = array_map(fn (ColumnInterface $column) => $column->dataTransformers(), $this->schema->columns);
-        }
-
-        return new ResultIterator($pgSqlResult, $dataTransformers);
+        return new ResultIterator($pgSqlResult, $this->schema);
     }
 }

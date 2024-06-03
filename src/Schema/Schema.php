@@ -4,6 +4,7 @@ namespace ElephantWithElephant\Schema;
 
 class Schema
 {
+    /** @var \ElephantWithElephant\Schema\DataType\ColumnInterface[] */
     public readonly array $columns;
 
     /** @param \ElephantWithElephant\Schema\DataType\ColumnInterface[] $columns */

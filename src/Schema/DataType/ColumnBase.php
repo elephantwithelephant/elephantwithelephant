@@ -15,13 +15,25 @@ abstract class ColumnBase implements ColumnInterface
         return $this->columnName;
     }
 
-    public function expressionInSelectStatement(): string
+    public function expressionInSelectStatement(string $alias = null): string
     {
-        return '"' . $this->columnName . '"';
+        return '"' . $this->columnName . '"' . $this->asClause($alias);
     }
 
     public function expressionInCreateTable(): string
     {
         return $this->columnName . ' ' . static::FIELD_TYPE;
+    }
+
+    protected function asClause(string $alias = null): string {
+        if (!$alias) {
+            return '';
+        }
+
+        if (!preg_match('/^[A-z][A-z0-9_]*$/', $alias)) {
+            throw new \Exception('Alias must start with a letter and contain only letters, numbers and underscores.');
+        }
+
+        return " AS $alias";
     }
 }
