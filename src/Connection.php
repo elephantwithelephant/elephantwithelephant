@@ -2,6 +2,7 @@
 
 namespace ElephantWithElephant;
 
+use ElephantWithElephant\Schema\Schema;
 use ElephantWithElephant\Statement\Command\CreateTable;
 use ElephantWithElephant\Statement\Command\Select;
 use PgSql\Connection as PgSqlConnection;
@@ -52,9 +53,9 @@ class Connection
         return pg_query($this->internalConnection, $query);
     }
 
-    public function createTable(string $tableName): CreateTable
+    public function createTable(Schema $schema): CreateTable
     {
-        return new CreateTable($this, $tableName);
+        return new CreateTable($this, $schema);
     }
 
     public function select(string $tableName): Select

@@ -3,19 +3,20 @@
 namespace ElephantWithElephant\Statement\Command;
 
 use ElephantWithElephant\Connection;
+use ElephantWithElephant\Schema\Schema;
 use ElephantWithElephant\Statement\StatementBase;
 
 class CreateTable extends StatementBase
 {
     public function __construct(
         Connection $connection,
-        protected $tableName,
+        protected Schema $schema,
     ) {
         parent::__construct($connection);
     }
 
     public function __toString()
     {
-        return 'CREATE TABLE ' . $this->tableName . ' (name TEXT, code INT, tags TEXT[])';
+        return 'CREATE TABLE ' . $this->schema->tableName . ' (' . implode(', ', $this->schema->fields) . ')';
     }
 }

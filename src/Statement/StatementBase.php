@@ -5,8 +5,9 @@ namespace ElephantWithElephant\Statement;
 use ElephantWithElephant\Connection;
 use ElephantWithElephant\Result\NullResult;
 use ElephantWithElephant\Result\ResultInterface;
+use PgSql\Result as PgSqlResult;
 
-class StatementBase implements StatementInterface
+abstract class StatementBase implements StatementInterface
 {
     public function __construct(
         protected Connection $connection,
@@ -14,7 +15,12 @@ class StatementBase implements StatementInterface
 
     public function execute(): ResultInterface
     {
-        $this->connection->runRaw((string) $this);
+        $pgSqlResult = $this->connection->runRaw((string) $this);
+        return $this->processResult($pgSqlResult);
+    }
+
+    protected function processResult(PgSqlResult $pgSqlResult): ResultInterface
+    {
         return new NullResult();
     }
 }

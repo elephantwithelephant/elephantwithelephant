@@ -3,13 +3,13 @@
 namespace ElephantWithElephant\Statement\Command;
 
 use ElephantWithElephant\Connection;
-use ElephantWithElephant\Statement\Clause\Where;
+use ElephantWithElephant\Result\ResultInterface;
+use ElephantWithElephant\Result\ResultIterator;
 use ElephantWithElephant\Statement\StatementBase;
+use PgSql\Result;
 
-class Select extends StatementBase
+class Select extends WhereBearingCommandBase
 {
-    protected ?Where $where;
-
     public function __construct(
         Connection $connection,
         protected string $tableName,
@@ -17,13 +17,18 @@ class Select extends StatementBase
         parent::__construct($connection);
     }
 
-    public function condition(string $tempCondition): Where
-    {
-        return $this->where = new Where($this, $tempCondition);
-    }
-
     public function __toString()
     {
         return 'SELECT * FROM "' . $this->tableName . '" ' . $this->where . ';';
+    }
+
+    public function execute(): ResultIterator
+    {
+        return parent::execute();
+    }
+
+    protected function processResult(Result $pgSqlResult): ResultInterface
+    {
+        return new ResultIterator($pgSqlResult);
     }
 }
