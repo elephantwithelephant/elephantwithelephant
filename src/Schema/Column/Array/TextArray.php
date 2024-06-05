@@ -6,7 +6,7 @@ use ElephantWithElephant\Schema\Column\ColumnSchemaBase;
 
 class TextArray extends ColumnSchemaBase
 {
-    const string DATA_TYPE = 'TEXT[]';
+    public const string DATA_TYPE = 'TEXT[]';
 
     public function expressionInSelectStatement(?string $alias = null): string
     {

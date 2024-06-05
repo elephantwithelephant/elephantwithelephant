@@ -14,18 +14,17 @@ class Connection
     protected DatabaseSchema $schema;
 
     public function __construct(
-        ?string $dbname = NULL,
-        ?string $user = NULL,
-        ?string $password = NULL,
+        ?string $dbname = null,
+        ?string $user = null,
+        ?string $password = null,
         ?string $host = 'localhost',
         ?int $port = 5432,
         ?int $connect_timeout = 0,
-        ?string $sslmode = NULL,
-        ?string $service = NULL,
-        ?string $hostaddr = NULL,
+        ?string $sslmode = null,
+        ?string $service = null,
+        ?string $hostaddr = null,
         ?string $options = '--client_encoding=UTF8',
-    )
-    {
+    ) {
         $parameters = [
             'dbname' => $dbname,
             'user' => $user,
@@ -36,7 +35,7 @@ class Connection
             'sslmode' => $sslmode,
             'service' => $service,
             'hostaddr' => $hostaddr,
-            'options' => $options ? "'$options'" : NULL,
+            'options' => $options ? "'$options'" : null,
         ];
 
         $parameters = array_filter($parameters);
@@ -57,6 +56,7 @@ class Connection
     public function setSchema(DatabaseSchema $schema): static
     {
         $this->schema = $schema;
+
         return $this;
     }
 
@@ -75,7 +75,7 @@ class Connection
         return new Select($this, $this->schema->getTable($tableName));
     }
 
-    //public function insert()
-    //public function update()
-    //public function delete()
+    // public function insert()
+    // public function update()
+    // public function delete()
 }

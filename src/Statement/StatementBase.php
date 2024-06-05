@@ -16,6 +16,7 @@ abstract class StatementBase implements StatementInterface
     public function execute(): ResultInterface
     {
         $pgSqlResult = $this->connection->runRaw((string) $this);
+
         return $this->processResult($pgSqlResult);
     }
 

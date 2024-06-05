@@ -16,6 +16,7 @@ abstract class ConditionBearingClauseBase implements ConditionBearingStatementIn
     public function condition(string $columnName, string|int|float $value, string $operator = '='): static
     {
         $this->conditions[] = new SimpleCondition($columnName, $value, $operator);
+
         return $this;
     }
 

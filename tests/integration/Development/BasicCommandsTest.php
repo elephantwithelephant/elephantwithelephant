@@ -1,6 +1,6 @@
 <?php
 
-namespace ElephantWithElephant\Tests\Integration\Development ;
+namespace ElephantWithElephant\Tests\Integration\Development;
 
 use ElephantWithElephant\Schema\Column\Array\TextArray;
 use ElephantWithElephant\Schema\Column\Character\Text;

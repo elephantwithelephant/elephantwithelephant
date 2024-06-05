@@ -2,5 +2,4 @@
 
 namespace ElephantWithElephant\Result;
 
-class NullResult implements ResultInterface
-{}
+class NullResult implements ResultInterface {}

@@ -18,7 +18,8 @@ class CreateTable extends StatementBase
 
     public function __toString()
     {
-        $columns = array_map(fn (ColumnSchemaInterface $column) => $column->expressionInCreateTable(), $this->schema->getColumns());
+        $columns = array_map(fn(ColumnSchemaInterface $column) => $column->expressionInCreateTable(), $this->schema->getColumns());
+
         return 'CREATE TABLE ' . $this->schema->getTableName() . ' (' . implode(', ', $columns) . ')';
     }
 }

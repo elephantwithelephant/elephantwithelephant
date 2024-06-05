@@ -6,7 +6,7 @@ use ElephantWithElephant\Schema\Column\ColumnSchemaBase;
 
 class Text extends ColumnSchemaBase
 {
-    const string DATA_TYPE = 'TEXT';
+    public const string DATA_TYPE = 'TEXT';
 
     public function transformResult(mixed $value): mixed
     {

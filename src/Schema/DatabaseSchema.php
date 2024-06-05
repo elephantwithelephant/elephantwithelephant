@@ -29,6 +29,7 @@ class DatabaseSchema
     public function setTable(TableSchema $table): static
     {
         $this->tables[$table->getTableName()] = $table;
+
         return $this;
     }
 }

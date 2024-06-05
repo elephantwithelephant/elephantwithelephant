@@ -4,8 +4,7 @@ namespace ElephantWithElephant\Statement;
 
 use ElephantWithElephant\Result\ResultInterface;
 
-interface StatementInterface {
-
+interface StatementInterface
+{
     public function execute(): ResultInterface;
-
 }

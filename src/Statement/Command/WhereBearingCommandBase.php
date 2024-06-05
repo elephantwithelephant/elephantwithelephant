@@ -22,6 +22,7 @@ abstract class WhereBearingCommandBase extends StatementBase implements Conditio
     public function condition(string $columnName, string|int|float $value, string $operator = '='): static
     {
         $this->where()->condition($columnName, $value, $operator);
+
         return $this;
     }
 }

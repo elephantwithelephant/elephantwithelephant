@@ -11,7 +11,6 @@ final class ResultIterator implements \Iterator, ResultInterface
     private int $key = -1;
     private mixed $row = null;
 
-    /** @param \ElephantWithElephant\DataTransformation\DataTransformerInterface[] $dataTransformers */
     public function __construct(
         private PgSqlResult $pgSqlResult,
         private TableSchema $schema,
@@ -31,15 +30,14 @@ final class ResultIterator implements \Iterator, ResultInterface
     {
         $this->row = pg_fetch_array($this->pgSqlResult, mode: PGSQL_ASSOC);
 
-        if ($this->row === false) {
+        if (false === $this->row) {
             $this->valid = false;
-        }
-        else {
+        } else {
             foreach ($this->row as $columnName => $value) {
                 $this->row[$columnName] = $this->schema->getColumn($columnName)->transformResult($value);
             }
 
-            $this->key++;
+            ++$this->key;
         }
     }
 
@@ -52,7 +50,7 @@ final class ResultIterator implements \Iterator, ResultInterface
 
     public function valid(): bool
     {
-        if ($this->key === -1) {
+        if (-1 === $this->key) {
             $this->next();
         }
 

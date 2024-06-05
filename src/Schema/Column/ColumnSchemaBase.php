@@ -4,7 +4,7 @@ namespace ElephantWithElephant\Schema\Column;
 
 abstract class ColumnSchemaBase implements ColumnSchemaInterface
 {
-    const string DATA_TYPE = '';
+    public const string DATA_TYPE = '';
 
     public function __construct(
         protected string $columnName,
@@ -15,7 +15,7 @@ abstract class ColumnSchemaBase implements ColumnSchemaInterface
         return $this->columnName;
     }
 
-    public function expressionInSelectStatement(string $alias = null): string
+    public function expressionInSelectStatement(?string $alias = null): string
     {
         return '"' . $this->columnName . '"' . $this->asClause($alias);
     }
@@ -25,7 +25,8 @@ abstract class ColumnSchemaBase implements ColumnSchemaInterface
         return $this->columnName . ' ' . static::DATA_TYPE;
     }
 
-    protected function asClause(string $alias = null): string {
+    protected function asClause(?string $alias = null): string
+    {
         if (!$alias) {
             return '';
         }
