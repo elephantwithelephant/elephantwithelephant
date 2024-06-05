@@ -2,9 +2,7 @@
 
 namespace ElephantWithElephant\Statement\Clause\Condition;
 
-use ElephantWithElephant\Statement\Clause\ClauseInterface;
-
-class SimpleCondition implements ClauseInterface
+class SimpleCondition implements ConditionInterface
 {
     public function __construct(
         protected string $columnName,

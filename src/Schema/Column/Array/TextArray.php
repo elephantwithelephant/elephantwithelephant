@@ -13,7 +13,7 @@ class TextArray extends ColumnSchemaBase
         return 'array_to_json("' . $this->getColumnName() . '")' . $this->asClause($alias ?? $this->getColumnName());
     }
 
-    public function transformResult(mixed $value): mixed
+    public function transformResult(string $value): mixed
     {
         return \json_decode($value, associative: true);
     }

@@ -27,7 +27,10 @@ class Select extends WhereBearingCommandBase
 
     public function execute(): ResultIterator
     {
-        return parent::execute();
+        /** @var ResultIterator */
+        $result = parent::execute();
+
+        return $result;
     }
 
     protected function processResult(Result $pgSqlResult): ResultInterface

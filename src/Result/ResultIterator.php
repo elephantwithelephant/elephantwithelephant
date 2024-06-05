@@ -5,11 +5,16 @@ namespace ElephantWithElephant\Result;
 use ElephantWithElephant\Schema\TableSchema;
 use PgSql\Result as PgSqlResult;
 
+/**
+ * @implements \Iterator<mixed>
+ */
 final class ResultIterator implements \Iterator, ResultInterface
 {
     private bool $valid = true;
     private int $key = -1;
-    private mixed $row = null;
+
+    /** @var array<string, mixed> */
+    private array $row = [];
 
     public function __construct(
         private PgSqlResult $pgSqlResult,
@@ -28,12 +33,14 @@ final class ResultIterator implements \Iterator, ResultInterface
 
     public function next(): void
     {
-        $this->row = pg_fetch_array($this->pgSqlResult, mode: PGSQL_ASSOC);
+        /** @var false|array<string, string> */
+        $row = pg_fetch_array($this->pgSqlResult, mode: PGSQL_ASSOC);
 
-        if (false === $this->row) {
+        if (false === $row) {
             $this->valid = false;
         } else {
-            foreach ($this->row as $columnName => $value) {
+            $this->row = [];
+            foreach ($row as $columnName => $value) {
                 $this->row[$columnName] = $this->schema->getColumn($columnName)->transformResult($value);
             }
 

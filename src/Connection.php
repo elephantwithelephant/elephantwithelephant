@@ -45,7 +45,11 @@ class Connection
             array_keys($parameters),
         ));
 
-        $this->internalConnection = pg_connect($connectionString);
+        $internalConnection = pg_connect($connectionString);
+        if (false === $internalConnection) {
+            throw new \Exception('It was not possible to connect to PostgreSQL.');
+        }
+        $this->internalConnection = $internalConnection;
     }
 
     public function getSchema(): DatabaseSchema

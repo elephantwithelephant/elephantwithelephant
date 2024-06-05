@@ -8,7 +8,7 @@ class Integer extends ColumnSchemaBase
 {
     public const string DATA_TYPE = 'INTEGER';
 
-    public function transformResult(mixed $value): mixed
+    public function transformResult(string $value): mixed
     {
         return (int) $value;
     }

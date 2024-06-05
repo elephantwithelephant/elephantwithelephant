@@ -7,6 +7,7 @@ use ElephantWithElephant\Statement\ConditionBearingStatementInterface;
 
 abstract class ConditionBearingClauseBase implements ConditionBearingStatementInterface, ClauseInterface
 {
+    /** @var ConditionInterface[] */
     protected array $conditions = [];
 
     public function __construct(

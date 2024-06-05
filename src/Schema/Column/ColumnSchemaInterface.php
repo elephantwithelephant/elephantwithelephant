@@ -10,5 +10,5 @@ interface ColumnSchemaInterface
 
     public function expressionInCreateTable(): string;
 
-    public function transformResult(mixed $value): mixed;
+    public function transformResult(string $value): mixed;
 }

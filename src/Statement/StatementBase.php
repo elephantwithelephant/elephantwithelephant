@@ -17,6 +17,10 @@ abstract class StatementBase implements StatementInterface
     {
         $pgSqlResult = $this->connection->runRaw((string) $this);
 
+        if (false === $pgSqlResult) {
+            throw new \Exception('Invalid result from PostgreSQL.');
+        }
+
         return $this->processResult($pgSqlResult);
     }
 
