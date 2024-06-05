@@ -2,7 +2,7 @@
 
 namespace ElephantWithElephant;
 
-use ElephantWithElephant\Schema\Schema;
+use ElephantWithElephant\Schema\DatabaseSchema;
 use ElephantWithElephant\Statement\Command\CreateTable;
 use ElephantWithElephant\Statement\Command\Select;
 use PgSql\Connection as PgSqlConnection;
@@ -11,6 +11,7 @@ use PgSql\Result as PgSqlResult;
 class Connection
 {
     protected PgSqlConnection $internalConnection;
+    protected DatabaseSchema $schema;
 
     public function __construct(
         ?string $dbname = NULL,
@@ -48,19 +49,30 @@ class Connection
         $this->internalConnection = pg_connect($connectionString);
     }
 
+    public function getSchema(): DatabaseSchema
+    {
+        return $this->schema;
+    }
+
+    public function setSchema(DatabaseSchema $schema): static
+    {
+        $this->schema = $schema;
+        return $this;
+    }
+
     public function runRaw(string $query): PgSqlResult|false
     {
         return pg_query($this->internalConnection, $query);
     }
 
-    public function createTable(Schema $schema): CreateTable
+    public function createTable(string $tableName): CreateTable
     {
-        return new CreateTable($this, $schema);
+        return new CreateTable($this, $this->schema->getTable($tableName));
     }
 
-    public function select(string|Schema $table): Select
+    public function select(string $tableName): Select
     {
-        return new Select($this, $table);
+        return new Select($this, $this->schema->getTable($tableName));
     }
 
     //public function insert()

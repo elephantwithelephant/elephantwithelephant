@@ -2,17 +2,18 @@
 
 namespace ElephantWithElephant\Tests\Integration\Development ;
 
-use ElephantWithElephant\Schema\DataType\Array\TextArray;
-use ElephantWithElephant\Schema\DataType\Character\Text;
-use ElephantWithElephant\Schema\DataType\Numeric\Integer;
-use ElephantWithElephant\Schema\Schema;
+use ElephantWithElephant\Schema\Column\Array\TextArray;
+use ElephantWithElephant\Schema\Column\Character\Text;
+use ElephantWithElephant\Schema\Column\Numeric\Integer;
+use ElephantWithElephant\Schema\DatabaseSchema;
+use ElephantWithElephant\Schema\TableSchema;
 use ElephantWithElephant\Tests\Integration\IntegrationTestCase;
 
 class BasicCommandsTest extends IntegrationTestCase
 {
     public function testBasicCommands(): void
     {
-        $schema = new Schema(
+        $tableSchema = new TableSchema(
             'person',
             [
                 new Text('name'),
@@ -20,14 +21,16 @@ class BasicCommandsTest extends IntegrationTestCase
                 new TextArray('tags'),
             ],
         );
+        $databaseSchema = new DatabaseSchema([$tableSchema]);
 
         $this->connection
-            ->createTable($schema)
+            ->setSchema($databaseSchema)
+            ->createTable('person')
             ->execute()
         ;
         $this->connection->runRaw("INSERT INTO person VALUES('Salvador Dalí', 123, '{\"painter\", \"surrealist\", \"elephants\"}')");
         $result = $this->connection
-            ->select($schema)
+            ->select('person')
             ->condition('code', 123)
             ->execute()
         ;

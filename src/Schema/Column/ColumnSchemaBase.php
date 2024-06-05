@@ -1,16 +1,16 @@
 <?php
 
-namespace ElephantWithElephant\Schema\DataType;
+namespace ElephantWithElephant\Schema\Column;
 
-abstract class ColumnBase implements ColumnInterface
+abstract class ColumnSchemaBase implements ColumnSchemaInterface
 {
-    const string FIELD_TYPE = '';
+    const string DATA_TYPE = '';
 
     public function __construct(
         protected string $columnName,
     ) {}
 
-    public function columnName(): string
+    public function getColumnName(): string
     {
         return $this->columnName;
     }
@@ -22,7 +22,7 @@ abstract class ColumnBase implements ColumnInterface
 
     public function expressionInCreateTable(): string
     {
-        return $this->columnName . ' ' . static::FIELD_TYPE;
+        return $this->columnName . ' ' . static::DATA_TYPE;
     }
 
     protected function asClause(string $alias = null): string {

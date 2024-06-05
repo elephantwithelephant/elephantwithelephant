@@ -1,10 +1,10 @@
 <?php
 
-namespace ElephantWithElephant\Schema\DataType;
+namespace ElephantWithElephant\Schema\Column;
 
-interface ColumnInterface
+interface ColumnSchemaInterface
 {
-    public function columnName(): string;
+    public function getColumnName(): string;
     public function expressionInSelectStatement(string $alias = null): string;
     public function expressionInCreateTable(): string;
     public function transformResult(mixed $value): mixed;
