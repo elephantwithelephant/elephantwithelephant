@@ -29,9 +29,10 @@ class BasicCommandsTest extends IntegrationTestCase
             ->execute()
         ;
         $this->connection->runRaw("INSERT INTO person VALUES('Salvador Dalí', 123, '{\"painter\", \"surrealist\", \"elephants\"}')");
+
         $result = $this->connection
             ->select('person')
-            ->condition('code', 123)
+            ->condition('code', '3\'; TRUNCATE person; SELECT * FROM "person" WHERE "code" = \'123')
             ->execute()
         ;
         foreach ($result as $row) {

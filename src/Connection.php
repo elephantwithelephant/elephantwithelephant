@@ -64,9 +64,14 @@ class Connection
         return $this;
     }
 
-    public function runRaw(string $query): PgSqlResult|false
+    public function runRaw(string $query, array $parameters = []): PgSqlResult|false
     {
-        return pg_query($this->internalConnection, $query);
+        foreach (array_keys($parameters) as $i => $parameterName) {
+            $query = str_replace($parameterName, '$' . ($i + 1), $query);
+        }
+        print "$query\n";
+
+        return pg_query_params($this->internalConnection, $query, array_values($parameters));
     }
 
     public function createTable(string $tableName): CreateTable

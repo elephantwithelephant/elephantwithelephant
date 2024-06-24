@@ -25,6 +25,11 @@ class Select extends WhereBearingCommandBase
         return 'SELECT ' . implode(',', $columns) . ' FROM "' . $this->schema->getTableName() . '" ' . $this->where . ';';
     }
 
+    public function getParameters(): array
+    {
+        return $this->where()->getParameters();
+    }
+
     public function execute(): ResultIterator
     {
         /** @var ResultIterator */

@@ -2,6 +2,8 @@
 
 namespace ElephantWithElephant\Statement\Clause\Condition;
 
+use ElephantWithElephant\Schema\Column\ColumnSchemaInterface;
+
 class SimpleCondition implements ConditionInterface
 {
     public function __construct(
@@ -12,6 +14,11 @@ class SimpleCondition implements ConditionInterface
 
     public function __toString(): string
     {
-        return $this->columnName . ' ' . $this->operator . " '" . $this->value . "'";
+        return $this->columnName . ' ' . $this->operator . ' $' . spl_object_hash($this);
+    }
+
+    public function getParameters(): array
+    {
+        return ['$' . spl_object_hash($this) => $this->value];
     }
 }

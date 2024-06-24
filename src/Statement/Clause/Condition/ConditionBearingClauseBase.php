@@ -25,4 +25,13 @@ abstract class ConditionBearingClauseBase implements ConditionBearingStatementIn
     {
         return implode(' ' . $this->operator . ' ', $this->conditions);
     }
+
+    public function getParameters(): array
+    {
+        $parameters = [];
+        foreach ($this->conditions as $conditions) {
+            $parameters += $conditions->getParameters();
+        }
+        return $parameters;
+    }
 }

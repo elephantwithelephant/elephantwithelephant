@@ -15,14 +15,14 @@ abstract class ColumnSchemaBase implements ColumnSchemaInterface
         return $this->columnName;
     }
 
-    public function expressionInSelectStatement(?string $alias = null): string
-    {
-        return '"' . $this->columnName . '"' . $this->asClause($alias);
-    }
-
     public function expressionInCreateTable(): string
     {
         return $this->columnName . ' ' . static::DATA_TYPE;
+    }
+
+    public function expressionInSelectStatement(?string $alias = null): string
+    {
+        return '"' . $this->columnName . '"' . $this->asClause($alias);
     }
 
     protected function asClause(?string $alias = null): string

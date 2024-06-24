@@ -22,4 +22,9 @@ class CreateTable extends StatementBase
 
         return 'CREATE TABLE ' . $this->schema->getTableName() . ' (' . implode(', ', $columns) . ')';
     }
+
+    public function getParameters(): array
+    {
+        return [];
+    }
 }
